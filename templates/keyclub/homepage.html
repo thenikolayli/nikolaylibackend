@@ -1,0 +1,22 @@
+{% extends "base_header.html" %}
+
+{% block title %}Key Club{% endblock title %}
+
+{% block content %}
+{% load static %}
+<div class="container-fluid space-top space-left" id="content">
+    <h1 class="primary-light">
+        This is the key club page,
+    </h1>
+    <h2 class="primary-light line-spacing-3rem">
+        In order to use the automation program I wrote, you have to enter the correct password.
+    </h2>
+    <div class="password-entry space-top">
+        <input type="password" id="password" placeHolder="Enter password">
+        <button onclick="get_data()">Submit</button>
+    </div>
+    <p class="primary-dark" id="incorrect-pass-field"></p>
+    <script src={% static "js/get_data.js" %}></script>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,41 @@
+{% extends "base_header.html" %}
+
+{% block title %}Key Club{% endblock title %}
+
+{% block content %}
+{% load static %}
+
+<div class="container-fluid space-top space-left" id="content">
+    <h1 class="secondary-dark">
+        This is the automation page,
+    </h1>
+    <h2 class="primary-light line-spacing-2rem">
+        instructions:<br>
+        1. find a sign up sheet google doc for the event you'd like to automate<br>
+        2. copy the link and paste it in the space below<br>
+        3. click "automate event"<br><br>
+        <u>note</u>: you must be logged into the official key club google account,<br>
+        if you accidentally logged into a different google account,<br>
+        click the log out button and redo the login process
+    </h2>
+    <div class="link-entry space-top-big">
+        <input type="url" id="event-link" placeHolder="Paste link here">
+        <button onclick="automate_event()" id="automate-button">Automate event</button>
+    </div>
+    <p class="primary-dark space-top font-small" id="api-response"></p>
+    <script src={% static "js/automate_event.js" %}></script>
+    <h2 class="primary-dark space-top">
+        FAQ:
+        <ol>
+            <h3><li>Why were some hours not automated?</h3>
+            <p class="font-small tab">The name was spelled incorrectly or a nickname was used,<br>
+            and the bot couldn't find the person in the hours spreadsheet.</p></li>
+            <h3><li>Why is the automate button greyed out?</h3>
+            <p class="font-small tab">It's waiting for the server to respond to ensure that an<br>
+            attempt to automate the event was made, as it needs to display<br>
+            the response so the user knows if there was an error or not.</p></li>
+        </ol>
+    </h2>
+</div>
+
+{% endblock content %}
