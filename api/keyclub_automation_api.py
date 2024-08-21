@@ -136,7 +136,7 @@ def automate_event(credentials, event_url):
     #check if event has hours filled out on the google doc
 
     if not event_hours: # if empty event end program
-        print("empty event")
+        # print("empty event")
         return {"error": "empty event"}
     elif isinstance(event_hours.get(list(event_hours)[0])[0], numbers.Number): # if first name doesnt have hours filled out it assumes that hours arent filled out for whole doc
         service = build("docs", "v1", credentials=credentials)
@@ -154,7 +154,7 @@ def automate_event(credentials, event_url):
             correction += len(hours)
 
         result = service.documents().batchUpdate(documentId=event_url, body={"requests": updates}).execute()
-        print("\nhours filled out on event attendance doc\n")
+        # print("\nhours filled out on event attendance doc\n")
         return_data += "hours filled out on event attendace doc"
     else:
         return_data += "event sign up sheet is already filled out, "
@@ -163,8 +163,8 @@ def automate_event(credentials, event_url):
 
     event_names = fetch_sheet_data(hours_spreadsheet_id, ["Master Sheet!K1:ZZ1"], credentials)[0][0]
     if event_title in event_names:
-        print("event is already in spreadsheet")
-        return {"error": "event is already in spreadsheet"}
+        # print(f"{event_title} is already in spreadsheet")
+        return {"error": f"{event_title} is already in spreadsheet"}
     empty_event_number = event_names.index("")+11
     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     column = ""
@@ -192,17 +192,17 @@ def automate_event(credentials, event_url):
     result = service.spreadsheets().values().batchUpdate(spreadsheetId=hours_spreadsheet_id, body={"valueInputOption": "USER_ENTERED", "data": data}).execute()
     
     updated_hours, not_updated_hours = [], []
-    print("updated hours for the following people: ")
+    # print("updated hours for the following people: ")
     for name in event_hours:
         if not name in not_done:
-            print(f"    {name}: {event_hours.get(name)[0]} hours")
-            updated_hours.append(f"{name}: {event_hours.get(name)[0]} hours")
-    print("\nthe following people's hours could not get updated: ")
+            # print(f"    {name}: {event_hours.get(name)[0]} hours")
+            updated_hours.append([name, event_hours.get(name)[0]])
+    # print("\nthe following people's hours could not get updated: ")
     for name in not_done:
-        print(f"    {name}: {not_done.get(name)[0]} hours")
-        not_updated_hours.append(f"{name}: {not_done.get(name)[0]} hours")
+        # print(f"    {name}: {not_done.get(name)[0]} hours")
+        not_updated_hours.append([name, not_done.get(name)[0]])
     
-    return {"data": return_data, "updated": updated_hours, "not_updated": not_updated_hours}
+    return {"data": return_data, "updated": updated_hours, "not_updated": not_updated_hours, "event_title": event_title}
 
     # takes url of sign up sheet of event to automate, credentials, and info dict
     # info dict contains: 

@@ -15,7 +15,7 @@ async function automate_event() {
     if (result.error) {
         document.getElementById("api-response").innerHTML = "Error:<br>" + result.error;
     } else {
-        document.getElementById("api-response").innerHTML = "Success<br>" +
+        document.getElementById("api-response").innerHTML = result.event_title + " successfully automated!<br>" +
         result.data +
         "<br>People filled out:<br>" +
         result.updated +

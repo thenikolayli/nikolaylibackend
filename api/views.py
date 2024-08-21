@@ -7,6 +7,7 @@ from django.shortcuts import redirect, resolve_url
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from .keyclub_automation_api import automate_event, fetch_sheet_data, fetch_docs_data
+from .models import Event_Automated
 
 load_dotenv()
 
@@ -76,6 +77,13 @@ def automate_event_api(request):
         scopes = creds['scopes'])
     
     response = automate_event(credentials, event_link)
-    print(response)
+    
+    if not response.get("error"):
+        hours_updated, hours_not_updated = 0, 0
+        for i in response.get("updated"):
+            hours_updated += float(i[1])
+        for i in response.get("not_updated"):
+            hours_not_updated += float(i[1])
+        Event_Automated(event_title=response.get("event_title"), hours_updated=hours_updated, hours_not_updated=hours_not_updated).save()
     
     return Response(response)
