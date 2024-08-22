@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-import os
+import os, json
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -28,8 +28,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG")
 
-ALLOWED_HOSTS = ["35.162.217.56", "nikolayli.com", "www.nikolayli.com"]
-
+ALLOWED_HOSTS = json.loads(os.getenv("ALLOWED_HOSTS"))
 
 # Application definition
 

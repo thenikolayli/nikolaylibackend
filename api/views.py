@@ -14,7 +14,7 @@ load_dotenv()
 
 client_config = json.loads(os.getenv("CLIENT_CONFIG"))
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/documents"]
-redirect_uri = json.loads(os.getenv("CLIENT_CONFIG")).get("installed").get("redirect_uris")[0]
+redirect_uri = client_config.get("web").get("redirect_uris")[0]
 correct_password = """
 <h1 class="primary-light">
     Correct password!!
