@@ -14,6 +14,7 @@ load_dotenv()
 
 client_config = json.loads(os.getenv("CLIENT_CONFIG"))
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/documents"]
+redirect_uri = json.loads(os.getenv("CLIENT_CONFIG")).get("installed").get("redirect_uris")[0]
 correct_password = """
 <h1 class="primary-light">
     Correct password!!
@@ -43,7 +44,7 @@ def check_password(request):
 @api_view(["POST"])
 @csrf_protect
 def authorize(request):
-    flow = InstalledAppFlow.from_client_config(client_config, SCOPES, redirect_uri="http://localhost:8000/api/oauthcallback/")
+    flow = InstalledAppFlow.from_client_config(client_config, SCOPES, redirect_uri=redirect_uri)
     redirect_url, state = flow.authorization_url()
     request.session["state"] = state
     
