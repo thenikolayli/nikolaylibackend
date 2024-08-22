@@ -56,7 +56,7 @@ def oauthcallback(request):
     state = request.session["state"]
     code = request.GET.get("code")
 
-    flow = InstalledAppFlow.from_client_config(client_config, state=state, scopes=SCOPES, redirect_uri="http://localhost:8000/api/oauthcallback/")
+    flow = InstalledAppFlow.from_client_config(client_config, state=state, scopes=SCOPES, redirect_uri=redirect_uri)
     flow.fetch_token(code=code)
     credentials = flow.credentials
     request.session['creds'] = {
