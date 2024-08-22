@@ -201,8 +201,8 @@ def automate_event(credentials, event_url):
     for name in not_done:
         # print(f"    {name}: {not_done.get(name)[0]} hours")
         not_updated_hours.append([name, not_done.get(name)[0]])
-    
-    return {"data": return_data, "updated": updated_hours, "not_updated": not_updated_hours, "event_title": event_title}
+
+    return {"data": return_data, "updated": updated_hours, "not_updated": not_updated_hours, "event_title": event_title, "people_attended": len(updated_hours)+len(not_updated_hours)}
 
     # takes url of sign up sheet of event to automate, credentials, and info dict
     # info dict contains: 

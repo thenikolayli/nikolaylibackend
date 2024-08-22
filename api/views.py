@@ -8,6 +8,7 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from .keyclub_automation_api import automate_event, fetch_sheet_data, fetch_docs_data
 from .models import Event_Automated
+from django.views.decorators.csrf import csrf_protect
 
 load_dotenv()
 
@@ -28,6 +29,7 @@ correct_password = """
 
 # Create your views here.
 @api_view(["POST"])
+@csrf_protect
 def check_password(request):
     password = request.data.get("password")
     sha = hashlib.sha256()
@@ -39,6 +41,7 @@ def check_password(request):
     return Response({"content": "Incorrect password", "id": "incorrect-pass-field"})
 
 @api_view(["POST"])
+@csrf_protect
 def authorize(request):
     flow = InstalledAppFlow.from_client_config(client_config, SCOPES, redirect_uri="http://localhost:8000/api/oauthcallback/")
     redirect_url, state = flow.authorization_url()
@@ -47,6 +50,7 @@ def authorize(request):
     return Response({"redirect_url": redirect_url})
 
 @api_view(["GET"])
+@csrf_protect
 def oauthcallback(request):
     state = request.session["state"]
     code = request.GET.get("code")
@@ -65,6 +69,7 @@ def oauthcallback(request):
     return redirect(resolve_url("keyclub:automation"))
 
 @api_view(["POST"])
+@csrf_protect
 def automate_event_api(request):
     event_link = request.data.get("event_link")
     creds = request.session.get("creds")
@@ -77,13 +82,12 @@ def automate_event_api(request):
         scopes = creds['scopes'])
     
     response = automate_event(credentials, event_link)
-    
     if not response.get("error"):
         hours_updated, hours_not_updated = 0, 0
         for i in response.get("updated"):
             hours_updated += float(i[1])
         for i in response.get("not_updated"):
             hours_not_updated += float(i[1])
-        Event_Automated(event_title=response.get("event_title"), hours_updated=hours_updated, hours_not_updated=hours_not_updated).save()
+        Event_Automated(event_title=response.get("event_title"), hours_updated=hours_updated, hours_not_updated=hours_not_updated, people_attended=response.get("people_attended")).save()
     
     return Response(response)

@@ -1,9 +1,11 @@
 async function get_data() {
+    const csrf_token = get_cookie("csrftoken")
     const password = document.getElementById('password').value;
     const response = await fetch('/api/check_password/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            "X-CSRFToken": csrf_token
         },
         body: JSON.stringify({password}),
     });

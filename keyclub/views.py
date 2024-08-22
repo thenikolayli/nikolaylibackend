@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
+from django.views.decorators.csrf import csrf_protect
 
 # Create your views here.
 def homepage(request):
     return render(request, "keyclub/homepage.html")
 
+@csrf_protect
 def automation(request):
     creds = request.session.get("creds")
     if creds:

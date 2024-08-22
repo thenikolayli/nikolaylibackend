@@ -6,3 +6,7 @@ class Event_Automated(models.Model):
     event_title = models.CharField(default="no name", max_length=255)
     hours_updated = models.FloatField(default=0.00)
     hours_not_updated = models.FloatField(default=0.00)
+    people_attended = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.event_title

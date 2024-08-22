@@ -4,6 +4,7 @@
 
 {% block content %}
 {% load static %}
+{% csrf_token %}
 <div class="container-fluid space-top space-left" id="content">
     <h1 class="primary-light">
         This is the key club page,
@@ -17,6 +18,7 @@
     </div>
     <p class="primary-dark" id="incorrect-pass-field"></p>
     <script src={% static "js/get_data.js" %}></script>
+    <script src={% static "js/get_cookie.js" %}></script>
 </div>
 
 {% endblock content %}

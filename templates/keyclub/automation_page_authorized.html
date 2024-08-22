@@ -4,6 +4,7 @@
 
 {% block content %}
 {% load static %}
+{% csrf_token %}
 
 <div class="container-fluid space-top space-left" id="content">
     <h1 class="secondary-dark">
@@ -24,6 +25,7 @@
     </div>
     <p class="primary-dark space-top font-small" id="api-response"></p>
     <script src={% static "js/automate_event.js" %}></script>
+    <script src={% static "js/get_cookie.js" %}></script>
     <h2 class="primary-dark space-top">
         FAQ:
         <ol>

@@ -1,10 +1,12 @@
 async function automate_event() {
     document.getElementById("automate-button").setAttribute("disabled", "true");
+    const csrf_token = get_cookie("csrftoken")
     const event_link = document.getElementById("event-link").value;
     const response = await fetch('/api/automate_event/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            "X-CSRFToken": csrf_token
         },
         body: JSON.stringify({event_link}),
     });
