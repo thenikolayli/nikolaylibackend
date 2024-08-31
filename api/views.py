@@ -111,9 +111,9 @@ class location_view(APIView):
 
         if serializer.is_valid():
             serializer.save()
-            return_data = {"data": f"successfully created {request.data.get("name")}"}
+            return_data = {"data": f"successfully created {request.data.get('name')}"}
         else:
-            return_data = {"error": f"could not create {request.data.get("name")}: {" ".join([serializer.errors.get(each)[0].title() for each in serializer.errors])}"}
+            return_data = {"error": f"could not create {request.data.get('name')}: {" ".join([serializer.errors.get(each)[0].title() for each in serializer.errors])}"}
         
         return Response(return_data)
 
@@ -123,7 +123,7 @@ class location_view(APIView):
             return_data = {"data": "location deleted successfully"}
         except Location.DoesNotExist:
             return_data = {"error": "location not found"}
-            raise NotFound(f'location {kwargs["pk"]} not found')
+            raise NotFound(f'location {kwargs['pk']} not found')
         
         location.delete()
         return Response(return_data)
@@ -135,9 +135,9 @@ class instrument_view(APIView):
 
         if serializer.is_valid():
             serializer.save()
-            return_data = {"data": f"successfully created {request.data.get("name")}"}
+            return_data = {"data": f"successfully created {request.data.get('name')}"}
         else:
-            return_data = {"error": f"could not create {request.data.get("name")}: {" ".join([serializer.errors.get(each)[0].title() for each in serializer.errors])}"}
+            return_data = {"error": f"could not create {request.data.get('name')}: {" ".join([serializer.errors.get(each)[0].title() for each in serializer.errors])}"}
         
         return Response(return_data)
 
