@@ -123,7 +123,7 @@ class location_view(APIView):
             return_data = {"data": "location deleted successfully"}
         except Location.DoesNotExist:
             return_data = {"error": "location not found"}
-            raise NotFound(f'location {kwargs['pk']} not found')
+            raise NotFound(f'location {kwargs["pk"]} not found')
         
         location.delete()
         return Response(return_data)
