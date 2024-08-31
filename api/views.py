@@ -113,7 +113,7 @@ class location_view(APIView):
             serializer.save()
             return_data = {"data": f"successfully created {request.data.get('name')}"}
         else:
-            return_data = {"error": f"could not create {request.data.get('name')}: {" ".join([serializer.errors.get(each)[0].title() for each in serializer.errors])}"}
+            return_data = {"error": f"could not create {request.data.get('name')}: {' '.join([serializer.errors.get(each)[0].title() for each in serializer.errors])}"}
         
         return Response(return_data)
 
