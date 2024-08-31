@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "keyclub",
+    "band",
     "api",
     "rest_framework"
 ]

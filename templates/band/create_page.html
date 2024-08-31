@@ -1,0 +1,108 @@
+{% extends "base_header.html" %}
+
+{% block title %}Band{% endblock title %}
+
+{% block content %}
+{% load static %}
+{% csrf_token %}
+
+<h1 class="primary-dark p-3">Add instruments and locations</h1>
+<div class="container-fluid d-flex align-content-start">
+    <div class="row">
+
+        <div class="col">
+            <div class="card tertiary-dark-bg mb-2" style="width: 21em;">
+                <div class="card-body">
+                    <h2 class="secondary-dark">Add location</h2>
+                    <table>
+                        <tr>
+                            <td><h3 class="secondary-dark font-small me-1">Name</h3></td>
+                            <td><input type="text" id="location_name" placeholder="jhs"></td>
+                        </tr>
+                    </table>
+                    <button onclick="create_item('location')">Add</button>
+                </div>
+            </div>
+
+            <div class="card tertiary-dark-bg mb-2" style="width: 21em;">
+                <div class="card-body">
+                    <h2 class="secondary-dark">Add instrument</h2>
+                    <table>
+                        <tr>
+                            <td><h3 class="secondary-dark font-small">Name</h3></td>
+                            <td><input type="text" id="instrument_name" placeholder="golden snare"></td>
+                        </tr>
+                        <tr>
+                            <td><h3 class="secondary-dark font-small">Type</h3></td>
+                            <td><input type="text" id="instrument_type" placeholder="drum"></td>
+                        </tr>
+                        <tr>
+                            <td><h3 class="secondary-dark font-small">Subtype</h3></td>
+                            <td><input type="text" id="instrument_subtype" placeholder="snare drum"></td>
+                        </tr>
+                        <tr>
+                            <td><h3 class="secondary-dark font-small me-1">Location</h3></td>
+                            <td><select name="Location" id="location_dropdown">
+                                {% for location in locations %}
+                                <option value={{ location.id }}>{{ location.name }}</option>
+                                {% endfor %}
+                            </select></td>
+                        </tr>
+                    </table>
+                    <button onclick="create_item('instrument')">Add</button>
+                </div>
+            </div>
+
+            <div style="width: 21em;" class="mb-2">
+                <p class="primary-dark" id="api-response"></p>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card tertiary-dark-bg mb-2" style="width: 21em;">
+                <div class="card-body">
+                    <table>
+                        <tr>
+                            <td><h2 class="secondary-dark">Equipment</h2></td>
+                            <td><button class="btn d-flex justify-content-center align-items-center p-0" style="width: 2em; height: 2em;" onclick="refresh_data()"><img src={% static "images/refresh.png" %} class="w-100 h-100"></button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <ul id="instrument-index">
+                                    {% for location in locations %}
+                                    <li>
+                                        <div class="d-flex align-items-center">
+                                            <h4>{{location.name}}</h4>
+                                            <button class="btn d-flex justify-content-center align-items-center p-0 ms-2" style="width: 1.5em; height: 1.5em;" onclick="delete_item('location', {{location.id}})"><img src={% static "images/minus-sign.png" %} class="w-100 h-100"></button>
+                                        </div>
+                                        <ul>
+                                        {% for instrument in instruments %}
+                                            {% if instrument.location.name == location.name %}
+                                                <li>
+                                                    <div class="d-flex align-items-center">
+                                                        <p class="fs-5 lh-sm">{{instrument.name}}</p>
+                                                        <button class="btn d-flex justify-content-center align-items-center align-self-center p-0 ms-1 mb-2" style="width: 1em; height: 1em;" onclick="delete_item('instrument', {{instrument.id}})"><img src={% static "images/minus-sign.png" %} class="w-100 h-100"></button>
+                                                    </div>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        </ul>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src={% static "js/get_cookie.js" %}></script>
+<script src={% static "js/band/create_item.js" %}></script>
+<script src={% static "js/band/delete_item.js" %}></script>
+<script src={% static "js/band/refresh_data.js" %}></script>
+
+{% endblock content %}

@@ -5,11 +5,11 @@
 {% block content %}
 {% load static %}
 
-<div class="container-fluid space-top space-left" id="content">
-    <h1 class="primary-light">
+<div class="container-fluid p-3" id="content">
+    <h1 class="secondary-dark">
         You're unauthorized,
     </h1>
-    <h2 class="primary-light line-spacing-2rem">
+    <h2 class="secondary-dark lh-sm">
         or your credentials couldn't be refreshed,<br>
         go <a href={% url "keyclub:homepage" %}>back to the homepage</a> to get authorized.
     </h2>

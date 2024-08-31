@@ -4,7 +4,7 @@
 
 .nav-link{
     color: #989c94;
-    font-size: 1.2rem;
+    font-size: 1.5em;
     font-weight: normal;
 }
 
@@ -14,9 +14,9 @@
 
 .nav-link.active {
     color: #989c94 !important;
-    font-size: 1.5rem !important;
+    font-size: 1.5em !important;
     font-weight: bold !important;
-    margin-right: 1rem;
+    margin-right: 1em;
 }
 
 
@@ -45,31 +45,9 @@
     background-color: #e3e7d3 !important;
 }
 
-
-.space-top {
-    margin-top: 1rem;
+.primary-light-bg {
+    background-color: #989c94 !important;
 }
-
-.space-top-big {
-    margin-top: 1rem;
-}
-
-.space-left {
-    margin-left: 1rem;
-}
-
-.line-spacing-3rem {
-    line-height: 3rem;
-}
-
-.line-spacing-2rem {
-    line-height: 2rem;
-}
-
-.font-small {
-    font-size: 1.5rem;
-}
-
-.tab {
-    margin-left: 2rem;
+.tertiary-dark-bg {
+    background-color: #67724f !important;
 }

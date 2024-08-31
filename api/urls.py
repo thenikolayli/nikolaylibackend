@@ -1,9 +1,15 @@
 from django.urls import path
-from .views import *
+from . import views
 
 urlpatterns = [
-    path("check_password/", check_password),
-    path("authorize/", authorize),
-    path("oauthcallback/", oauthcallback),
-    path("automate_event/", automate_event_api)
+    path("keyclub/check_password/", views.check_password),
+    path("keyclub/authorize/", views.authorize),
+    path("keyclub/oauthcallback/", views.oauthcallback),
+    path("keyclub/automate_event/", views.automate_event_api),
+
+    path("band/location/", views.location_view.as_view()),
+    path("band/location/<int:pk>/", views.location_view.as_view()),
+    path("band/instrument/", views.instrument_view.as_view()),
+    path("band/instrument/<int:pk>/", views.instrument_view.as_view()),
+    path("band/refresh_data/", views.refresh_data),
 ]

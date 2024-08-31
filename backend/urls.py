@@ -22,5 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", homepage, name="homepage"),
     path("keyclub/", include("keyclub.urls")),
+    path("band/", include("band.urls")),
     path("api/", include("api.urls"))
 ]

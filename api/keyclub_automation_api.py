@@ -1,7 +1,7 @@
-import os, requests, numbers, json
-from ics import Calendar
+import os, numbers, json #, requests
+# from ics import Calendar
 from dotenv import load_dotenv
-import concurrent.futures as cf
+# import concurrent.futures as cf
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
@@ -124,9 +124,10 @@ def fetch_docs_data(id, credentials):
 #     print(f"the following people that filled out the spirit co form did not attend an event in {month}, {year}")
 #     print(didnt_go)
 
-def automate_event(credentials, event_url):
+def automate_event(credentials, event_url, hours_multiplier):
     event_url = url_to_id(event_url)
     event_hours = fetch_docs_data(event_url, credentials)
+    hours_multiplier = float(hours_multiplier)
     if event_hours.get("error"):
         return {"error": event_hours.get("error")}
     event_hours = event_hours.get("data")
@@ -148,7 +149,7 @@ def automate_event(credentials, event_url):
             end = [int(x) for x in event_hours.get(name)[2].split(":")]
             if start[0] > end[0]:
                 start[0] -= 12
-            hours = str(round(((end[0]*60 + end[1]) - (start[0]*60 + start[1]))/60, 2))
+            hours = str(round((((end[0]*60 + end[1]) - (start[0]*60 + start[1]))/60) * hours_multiplier, 2))
             updates.append({"insertText": {"location": {"index": event_hours.get(name)[0] + correction}, "text": hours}})
             event_hours.get(name)[0] = hours
             correction += len(hours)
@@ -156,6 +157,7 @@ def automate_event(credentials, event_url):
         result = service.documents().batchUpdate(documentId=event_url, body={"requests": updates}).execute()
         # print("\nhours filled out on event attendance doc\n")
         return_data += "hours filled out on event attendace doc"
+        hours_multiplier = 1
     else:
         return_data += "event sign up sheet is already filled out, "
 
@@ -184,9 +186,9 @@ def automate_event(credentials, event_url):
         try:
             first, last = name.split(" ")
             row = all_rows.index([", ".join([last.capitalize(), first.capitalize()])])+2
-            data.append({"range": f"Master Sheet!{column}{row}:{column}{row}", "values": [[event_hours.get(name)[0]]]})
+            data.append({"range": f"Master Sheet!{column}{row}:{column}{row}", "values": [[float(event_hours.get(name)[0]) * hours_multiplier]]})
         except ValueError:
-            not_done.update({name: event_hours.get(name)[0]})
+            not_done.update({name: float(event_hours.get(name)[0]) * hours_multiplier})
     
     service = build("sheets", "v4", credentials=credentials)
     result = service.spreadsheets().values().batchUpdate(spreadsheetId=hours_spreadsheet_id, body={"valueInputOption": "USER_ENTERED", "data": data}).execute()
@@ -196,11 +198,11 @@ def automate_event(credentials, event_url):
     for name in event_hours:
         if not name in not_done:
             # print(f"    {name}: {event_hours.get(name)[0]} hours")
-            updated_hours.append([name, event_hours.get(name)[0]])
+            updated_hours.append([name, float(event_hours.get(name)[0]) * hours_multiplier])
     # print("\nthe following people's hours could not get updated: ")
     for name in not_done:
         # print(f"    {name}: {not_done.get(name)[0]} hours")
-        not_updated_hours.append([name, not_done.get(name)[0]])
+        not_updated_hours.append([name, float(not_done.get(name)[0]) * hours_multiplier])
 
     return {"data": return_data, "updated": updated_hours, "not_updated": not_updated_hours, "event_title": event_title, "people_attended": len(updated_hours)+len(not_updated_hours)}
 

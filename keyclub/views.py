@@ -7,7 +7,6 @@ from django.views.decorators.csrf import csrf_protect
 def homepage(request):
     return render(request, "keyclub/homepage.html")
 
-@csrf_protect
 def automation(request):
     creds = request.session.get("creds")
     if creds:
