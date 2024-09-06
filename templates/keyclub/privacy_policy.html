@@ -1,0 +1,51 @@
+{% extends "base_header.html" %}
+
+{% block title %}Privacy Policy{% endblock title %}
+
+{% block content %}
+{% load static %}
+
+<div class="container-fluid p-3" id="content">
+    <div class="container float-start">
+        <h1 class="secondary-dark">
+            Privacy Policy
+        </h1>
+        <h2 class="secondary-dark lh-sm">
+            I'm the developer of this app, and its purpose is to read and write to spreadsheet and docs in order to automate the process of logging student volunteer hours in Key Club, a student-led volunteering organization.
+            This app requires Google OAuth to access the user data and use it in order to read and write to the user's google sheets and docs.
+            <br>
+            <br>
+            This app collects the user's Google Docs and Sheets upon the user completing the authorization flow and giving the Key Club App permission to read and write the user's Google Docs and Sheets.
+            This information is then used to automate events in this process:
+            <br>
+            <br>
+            <ol>
+                <li>The user provides a link to a Key Club event sign up sheet on the automation page, a Google Doc which contains the name of the event, and a list of students that volunteered at the event, including their sign in and sign out times for the event.</li>
+                <li>The user then clicks the automate button after specifying the hour multiplier, and a request to the server is made.</li>
+                <li>The server opens the provided link and reads the name of the event, as well and the list of students who attended and their sign in and sign out times.</li>
+                <li>If the number of hours has not yet been calculated, the app will then calculate the number of hours each student volunteered, based on their sign in and sign out times, and write the number of hours for each student to the doc.</li>
+                <li>The app will then read the updated list of students and the name of the event, with their hours, and save it in a dictionary.</li>
+                <li>It will then open the Google Sheets Key Club Hours Spreadsheet, which logs all the hours for each student and event. It will read it to find a column to log the event in, and then it will log the event in the empty column.</li>
+            </ol>
+            <br>
+            The user's other Google Docs and Sheets are not read or written to, unless the user provides a url to a different Google Doc. No user's other Google Sheets are read, as the app only needs one sheet, and its link is saved in the environment variables.
+            <br>
+            <br>
+            When a request containing sensitive data is made to the server, it is protected with Django's CSRF protection. The user's credentials are saved on the server's database in their session data, which is reset every two weeks.
+            <br>
+            <br>
+            The data is not shared with any third parties, it is only saved in the database on the server.
+            <br>
+            <br>
+            The user is able to revoke consent to access their Google Docs and Sheets at any time via the log out button on the automation page, their session data (along with the credentials) is then wiped from the databse.
+            <br>
+            <br>
+            The data is stored for two weeks, after that it is wiped, and the user has to redo the authorization process in order to use the Key Club App.
+            <br>
+            <br>
+            My contact email is nikolay.li2008@gmail.com
+        </h2>
+    </div>
+</div>
+
+{% endblock content %}

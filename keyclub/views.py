@@ -30,3 +30,6 @@ def automation(request):
             return render(request, "keyclub/automation_page_unauthorized.html")
         return render(request, "keyclub/automation_page_authorized.html")
     return render(request, "keyclub/automation_page_unauthorized.html")
+
+def privacy_policy(request):
+    return render(request, "keyclub/privacy_policy.html")

@@ -21,5 +21,6 @@ from .views import *
 app_name = "keyclub"
 urlpatterns = [
     path("", homepage, name="homepage"),
-    path("automation/", automation, name="automation")
+    path("automation/", automation, name="automation"),
+    path("privacy_policy/", privacy_policy, name="privacy_policy")
 ]

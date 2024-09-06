@@ -30,9 +30,10 @@
             </div>
         </div>
         <div class="row">
-            <div class="col">
+            <div class="col d-flex align-items-start">
                 <button class="btn btn-primary mt-2" onclick="automate_event()" id="automate-button">Automate event</button>
                 <p class="primary-dark ms-2" id="api-response"></p>
+                <button class="btn btn-primary mt-2 ms-3" onclick="log_out()">Log out</button>
             </div>
         </div>
     </div>
@@ -55,6 +56,7 @@
 </div>
 
 <script src={% static "js/keyclub/automate_event.js" %}></script>
+<script src={% static "js/keyclub/log_out.js" %}></script>
 <script src={% static "js/get_cookie.js" %}></script>
 
 {% endblock content %}
