@@ -33,7 +33,7 @@
             <div class="col d-flex align-items-start">
                 <button class="btn btn-primary mt-2" onclick="automate_event()" id="automate-button">Automate event</button>
                 <p class="primary-dark ms-2" id="api-response"></p>
-                <button class="btn btn-primary mt-2 ms-3" onclick="log_out()">Log out</button>
+                <a class="primary-dark mt-2 ms-3" href={% url "logout" %}>Log out</a>
             </div>
         </div>
     </div>
@@ -56,7 +56,6 @@
 </div>
 
 <script src={% static "js/keyclub/automate_event.js" %}></script>
-<script src={% static "js/keyclub/log_out.js" %}></script>
 <script src={% static "js/get_cookie.js" %}></script>
 
 {% endblock content %}

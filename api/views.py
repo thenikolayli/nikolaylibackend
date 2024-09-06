@@ -14,7 +14,8 @@ from rest_framework.exceptions import NotFound
 
 from .keyclub_automation_api import automate_event # , fetch_sheet_data, fetch_docs_data
 from keyclub.models import Event_Automated
-from django.contrib.sessions.models import Session
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 from band.models import Location, Instrument
 from band.serializers import LocationSerializer, InstrumentSerializer
 
@@ -104,15 +105,11 @@ def automate_event_api(request):
     
     return Response(response)
 
-@api_view(["DELETE"])
 @csrf_protect
 def log_out(request):
-    session_key = request.session.session_key
-    session = Session.objects.get(session_key=session_key)
-    scheme, domain = request.scheme, request.get_host()
-    session.delete()
+    logout(request)
 
-    return Response({"redirect_url": f"{scheme}://{domain}/keyclub/automation/"})
+    return redirect("keyclub:homepage")
 
 @method_decorator(csrf_protect, name="dispatch")
 class location_view(APIView):
