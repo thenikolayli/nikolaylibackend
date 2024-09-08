@@ -202,7 +202,7 @@ def automate_event(credentials, event_url, hours_multiplier):
     # print("\nthe following people's hours could not get updated: ")
     for name in not_done:
         # print(f"    {name}: {not_done.get(name)[0]} hours")
-        not_updated_hours.append([name, float(not_done.get(name)[0]) * hours_multiplier])
+        not_updated_hours.append([name, float(not_done.get(name)) * hours_multiplier])
 
     return {"data": return_data, "updated": updated_hours, "not_updated": not_updated_hours, "event_title": event_title, "people_attended": len(updated_hours)+len(not_updated_hours)}
 
