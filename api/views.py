@@ -34,7 +34,7 @@ correct_password = """
     Make sure to sign in with the <u>official key club google account</u>, or use any other <br>
     account that has access to and can read/write in the hours spreadsheet.
 </h2>
-<button id="authorize" class="btn" onclick="authorize()" class='pt-3'>Log in with Google</button>
+<button id="authorize" class="btn btn-primary" onclick="authorize()" class='pt-3'>Log in with Google</button>
 <script src="/static/js/keyclub/authorize.js"></script>
 """
 
@@ -55,7 +55,7 @@ def check_password(request):
 @csrf_protect
 def authorize(request):
     flow = InstalledAppFlow.from_client_config(client_config, SCOPES, redirect_uri=redirect_uri)
-    redirect_url, state = flow.authorization_url()
+    redirect_url, state = flow.authorization_url(prompt="consent")
     request.session["state"] = state
     
     return Response({"redirect_url": redirect_url})
