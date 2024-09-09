@@ -6,17 +6,17 @@
 {% load static %}
 {% csrf_token %}
 
-<h1 class="primary-dark p-3">Add instruments and locations</h1>
+<h1 class=" p-3">Add instruments and locations</h1>
 <div class="container-fluid d-flex align-content-start">
     <div class="row">
 
         <div class="col">
-            <div class="card tertiary-dark-bg mb-2" style="width: 21em;">
+            <div class="card -bg mb-2" style="width: 21em;">
                 <div class="card-body">
-                    <h2 class="secondary-dark">Add location</h2>
+                    <h2 >Add location</h2>
                     <table>
                         <tr>
-                            <td><h3 class="secondary-dark font-small me-1">Name</h3></td>
+                            <td><h3 class=" font-small me-1">Name</h3></td>
                             <td><input type="text" id="location_name" placeholder="jhs"></td>
                         </tr>
                     </table>
@@ -24,24 +24,24 @@
                 </div>
             </div>
 
-            <div class="card tertiary-dark-bg mb-2" style="width: 21em;">
+            <div class="card -bg mb-2" style="width: 21em;">
                 <div class="card-body">
-                    <h2 class="secondary-dark">Add instrument</h2>
+                    <h2 >Add instrument</h2>
                     <table>
                         <tr>
-                            <td><h3 class="secondary-dark font-small">Name</h3></td>
+                            <td><h3 class=" font-small">Name</h3></td>
                             <td><input type="text" id="instrument_name" placeholder="golden snare"></td>
                         </tr>
                         <tr>
-                            <td><h3 class="secondary-dark font-small">Type</h3></td>
+                            <td><h3 class=" font-small">Type</h3></td>
                             <td><input type="text" id="instrument_type" placeholder="drum"></td>
                         </tr>
                         <tr>
-                            <td><h3 class="secondary-dark font-small">Subtype</h3></td>
+                            <td><h3 class=" font-small">Subtype</h3></td>
                             <td><input type="text" id="instrument_subtype" placeholder="snare drum"></td>
                         </tr>
                         <tr>
-                            <td><h3 class="secondary-dark font-small me-1">Location</h3></td>
+                            <td><h3 class=" font-small me-1">Location</h3></td>
                             <td><select name="Location" id="location_dropdown">
                                 {% for location in locations %}
                                 <option value={{ location.id }}>{{ location.name }}</option>
@@ -54,16 +54,16 @@
             </div>
 
             <div style="width: 21em;" class="mb-2">
-                <p class="primary-dark" id="api-response"></p>
+                <p id="api-response"></p>
             </div>
         </div>
 
         <div class="col">
-            <div class="card tertiary-dark-bg mb-2" style="width: 21em;">
+            <div class="card -bg mb-2" style="width: 21em;">
                 <div class="card-body">
                     <table>
                         <tr>
-                            <td><h2 class="secondary-dark">Equipment</h2></td>
+                            <td><h2>Equipment</h2></td>
                             <td><button class="btn d-flex justify-content-center align-items-center p-0" style="width: 2em; height: 2em;" onclick="refresh_data()"><img src={% static "images/refresh.png" %} class="w-100 h-100"></button></td>
                         </tr>
                         <tr>

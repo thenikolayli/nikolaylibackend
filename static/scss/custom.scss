@@ -1,0 +1,62 @@
+@import '../node_modules/bootstrap/scss/bootstrap';
+
+$d1: #0d1b2a;
+$d2: #1b263b;
+$l1: #415a77;
+$l2: #778da9;
+$l3: #e0e1dd;
+
+.d1-bg {
+    background-color: $d1;
+}
+.d2-bg {
+    background-color: $d2;
+}
+.l1-bg {
+    background-color: $l1;
+}
+.l2-bg {
+    background-color: $l2;
+}
+.l3-bg {
+    background-color: $l3;
+}
+
+.d1-c {
+    color: $d1;
+}
+.d2-c {
+    color: $d2;
+}
+.l1-c {
+    color: $l1;
+}
+.l2-c {
+    color: $l2;
+}
+.l3-c {
+    color: $l3;
+}
+
+
+h1 {
+    color: $l1;
+}
+h2 {
+    color: $l1;
+}
+strong {
+    color: $d1;
+}
+.nav-link {
+    color: $d1;
+    &:hover {
+        color: $l2;
+    }
+    &.footer-link {
+        color: $l1;
+        &:hover {
+            color: $l2;
+        }
+    }
+}

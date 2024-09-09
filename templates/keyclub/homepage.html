@@ -7,17 +7,17 @@
 {% csrf_token %}
 
 <div class="container-fluid p-3" id="content">
-    <h1 class="secondary-dark">
+    <h1>
         This is the key club page,
     </h1>
-    <h2 class="secondary-dark lh-sm">
+    <h2 class="lh-sm">
         In order to use the automation program I wrote, you have to enter the correct password.
     </h2>
     <div class="password-entry pt-3">
         <input type="password" id="password" placeHolder="Enter password">
         <button onclick="check_password()">Submit</button>
     </div>
-    <p class="primary-dark" id="incorrect-pass-field"></p>
+    <p id="incorrect-pass-field"></p>
     <script src={% static "js/keyclub/check_password.js" %}></script>
     <script src={% static "js/get_cookie.js" %}></script>
 </div>

@@ -8,10 +8,10 @@
 
 <div class="container-fluid" id="content">
     <div class="container-fluid my-3">
-        <h1 class="secondary-dark">
+        <h1>
             This is the automation page,
         </h1>
-        <h2 class="secondary-dark lh-sm">
+        <h2 class="lh-sm">
             instructions:<br>
             1. find a sign up sheet google doc for the event you'd like to automate<br>
             2. copy the link and paste it in the space below<br>
@@ -25,24 +25,24 @@
         <div class="row">
             <div class="col d-flex align-items-start">
                 <input type="url" id="event_link" placeHolder="Paste link here">
-                <p class="primary-dark ms-2 fs-5">hours multiplier:</p>
+                <p class="ms-2 fs-5">hours multiplier:</p>
                 <input type="number" class="ms-2" id="hours_multiplier" placeHolder="1" value=1>
             </div>
         </div>
         <div class="row">
             <div class="col d-flex align-items-start">
                 <button class="btn btn-primary mt-2" onclick="automate_event()" id="automate-button">Automate event</button>
-                <a class="primary-dark mt-2 ms-3" href={% url "logout" %}>Log out</a>
+                <a class="mt-2 ms-3" href={% url "logout" %}>Log out</a>
             </div>
         </div>
         <div class="row">
             <div class="col d-flex align-items-start">
-                <p class="primary-dark ms-2" id="api-response"></p>
+                <p class="ms-2" id="api-response"></p>
             </div>
         </div>
     </div>
     <div class="container-fluid">
-        <h2 class="secondary-dark pt-3">
+        <h2 class="pt-3">
             FAQ:
             <ol class="pt-1">
                 <h3><li>Why were some hours not automated?</h3>
