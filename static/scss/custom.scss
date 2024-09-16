@@ -6,6 +6,7 @@ $l1: #415a77;
 $l2: #778da9;
 $l3: #e0e1dd;
 
+
 .d1-bg {
     background-color: $d1;
 }
@@ -45,18 +46,42 @@ h1 {
 h2 {
     color: $l1;
 }
+p {
+    color: $l1;
+}
 strong {
     color: $d1;
 }
 .nav-link {
     color: $d1;
     &:hover {
-        color: $l2;
+        color: $l3;
     }
     &.footer-link {
         color: $l1;
         &:hover {
             color: $l2;
         }
+    }
+}
+
+.btn-dark {
+    color: $l2;
+    background-color: $d1;
+    border-color: $l2;
+    &:hover {
+        color: $d1;
+        background-color: $l2;
+        border-color: $d1;
+    }
+}
+.btn-light {
+    color: $d1;
+    background-color: $l2;
+    border-color: $d1;
+    &:hover {
+        color: $l2;
+        background-color: $d1;
+        border-color: $l2;
     }
 }

@@ -27,9 +27,9 @@ def automation(request):
                 'client_secret': credentials.client_secret,
                 'scopes': credentials.scopes}
         if not credentials.valid:
-            return render(request, "keyclub/automation_page_unauthorized.html")
-        return render(request, "keyclub/automation_page_authorized.html")
-    return render(request, "keyclub/automation_page_unauthorized.html")
+            return render(request, "keyclub/unauthorized.html")
+        return render(request, "keyclub/automation_page.html")
+    return render(request, "keyclub/unauthorized.html")
 
 def privacy_policy(request):
     return render(request, "keyclub/privacy_policy.html")

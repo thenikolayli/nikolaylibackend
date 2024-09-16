@@ -1,7 +1,7 @@
 async function check_password() {
     const csrf_token = get_cookie("csrftoken");
     const password = document.getElementById('password').value;
-    const response = await fetch('/api/keyclub/check_password/', {
+    const response = await fetch('/api/percussion/check_password/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -12,13 +12,9 @@ async function check_password() {
 
     const result = await response.json();
 
-    if (response.ok) {
-        document.getElementById(result.id).innerHTML = result.content;
-        if (result.file) {
-            const script = document.createElement('script');
-            script.src = result.file;
-            document.body.appendChild(script);
-        }
-        console.log(result);
+    if (result.error) {
+        document.getElementById("incorrect_pass_field").innerHTML = result.error;
+    } else if (result.data) {
+        window.location.href = result.data;
     }
 }

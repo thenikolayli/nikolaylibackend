@@ -34,22 +34,26 @@ correct_password = """
     Make sure to sign in with the <u>official key club google account</u>, or use any other <br>
     account that has access to and can read/write in the hours spreadsheet.
 </h2>
-<button id="authorize" class="btn btn-primary" onclick="authorize()" class='pt-3'>Log in with Google</button>
+<button id="authorize" class="btn btn-light" onclick="authorize()" class='pt-3'>Log in with Google</button>
 <script src="/static/js/keyclub/authorize.js"></script>
 """
+
+def get_hex(password):
+    sha = hashlib.sha256()
+    sha.update(password.encode())
+    return sha.hexdigest()
 
 # Create your views here.
 @api_view(["POST"])
 @csrf_protect
-def check_password(request):
+def keyclub_check_password(request):
     password = request.data.get("password")
-    sha = hashlib.sha256()
-    sha.update(password.encode())
+    password = get_hex(password)
 
-    if sha.hexdigest() == "a55e2e3846a51f6ad0abfdfbdea2ba0e5e0c76b5ccfa8a920895fedeae89a8b6":
+    if password == "a55e2e3846a51f6ad0abfdfbdea2ba0e5e0c76b5ccfa8a920895fedeae89a8b6":
         authorize_file = request.build_absolute_uri(static("js/keyclub/authorize.js"))
         return Response({"content": correct_password, "id": "content", "file": authorize_file})
-    return Response({"content": "Incorrect password", "id": "incorrect-pass-field"})
+    return Response({"content": "Incorrect password", "id": "incorrect_pass_field"})
 
 @api_view(["POST"])
 @csrf_protect
@@ -111,6 +115,7 @@ def log_out(request):
 
     return redirect("keyclub:homepage")
 
+
 @method_decorator(csrf_protect, name="dispatch")
 class location_view(APIView):
     def post(self, request):
@@ -165,3 +170,69 @@ def refresh_data(request):
     serialized_locations = LocationSerializer(Location.objects.all(), many=True).data
     
     return Response({"data": {"instruments": serialized_instruments, "locations": serialized_locations}})
+
+@method_decorator(csrf_protect, name="dispatch")
+class filter_instrument_view(APIView):
+    def get(self, request):
+        filter_instruments = request.session.get("filtered_instruments", [])
+
+        return Response({"data": filter_instruments})
+    
+    def post(self, request):
+        filter_instruments = request.session.get("filtered_instruments", [])
+        instrument = request.data.get("name")
+
+        if instrument != "":
+            filter_instruments.append(instrument)
+            request.session.update({"filtered_instruments": filter_instruments})
+            request.session.modified = True
+
+        return Response({"data": filter_instruments})
+    
+    def delete(self, request):
+        filter_instruments = request.session.get("filtered_instruments")
+        instrument = request.data.get("name")
+
+        if instrument != "clear_all_instruments":
+            filter_instruments.pop(filter_instruments.index(instrument))
+        else:
+            filter_instruments = []
+        request.session.update({"filtered_instruments": filter_instruments})
+        request.session.modified = True
+
+        return Response({"data": filter_instruments})
+
+@api_view(["POST"])
+@csrf_protect
+def filter_equipment(request):
+    instrument_list = request.session["filtered_instruments"]
+    to_bring = instrument_list.copy()
+    alr_there = []
+
+    # jhs_id = Location.objects.get(name="jhs").pk
+    location_id = request.data.get("location_pk")
+    # jhs_instruments = Instrument.objects.filter(location=jhs_id)
+    # jhs_instruments = InstrumentSerializer(jhs_instruments, many=True).data
+    # jhs_instruments = [instrument.get("subtype") for instrument in jhs_instruments]
+    location_instruments = Instrument.objects.filter(location=location_id)
+    location_instruments = InstrumentSerializer(location_instruments, many=True).data
+    location_instruments = [instrument.get("subtype") for instrument in location_instruments]
+
+    for instrument in instrument_list:
+        if instrument in location_instruments:
+            to_bring.pop(to_bring.index(instrument))
+            alr_there.append(instrument)
+            location_instruments[location_instruments.index(instrument)] = ""
+
+    return Response({"data": {"to_bring": to_bring, "alr_there": alr_there}})
+
+@api_view(["POST"])
+@csrf_protect
+def percussion_check_password(request):
+    password = request.data.get("password")
+    password = get_hex(password)
+
+    if password == "ae05a3bf72601ef696e4fdcffca744e03ee7a48069839f3616acf8368d4f9cf7":
+        request.session.update({"percussion_authorized": True})
+        return Response({"data": resolve_url("percussion:create_page")})
+    return Response({"error": "Incorrect password"})

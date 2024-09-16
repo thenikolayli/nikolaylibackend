@@ -1,0 +1,17 @@
+{% extends "base_header.html" %}
+
+{% block title %}Percussion{% endblock title %}
+
+{% block content %}
+{% load static %}
+
+<div class="container-fluid p-3" id="content">
+    <h1>
+        You're unauthorized,
+    </h1>
+    <h2 class="lh-sm">
+        go <a href={% url "band:homepage" %}>back to the homepage</a> to get authorized.
+    </h2>
+</div>
+
+{% endblock content %}

@@ -23,7 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", homepage, name="homepage"),
     path("keyclub/", include("keyclub.urls")),
-    path("band/", include("band.urls")),
+    path("percussion/", include("band.urls")),
     path("api/", include("api.urls")),
     path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain"))
 ]

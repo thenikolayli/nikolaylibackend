@@ -16,11 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import *
+from . import views
 
 app_name = "keyclub"
 urlpatterns = [
-    path("", homepage, name="homepage"),
-    path("automation/", automation, name="automation"),
-    path("privacy_policy/", privacy_policy, name="privacy_policy")
+    path("", views.homepage, name="homepage"),
+    path("automation/", views.automation, name="automation"),
+    path("privacy_policy/", views.privacy_policy, name="privacy_policy")
 ]

@@ -1,0 +1,34 @@
+{% extends "base_header.html" %}
+
+{% block title %}Percussion{% endblock title %}
+
+{% block content %}
+{% load static %}
+{% csrf_token %}
+
+<div class="container-fluid p-3" id="content">
+    <h1>
+        This is the percussion page,
+    </h1>
+    <h2 class="lh-sm">
+        In order to use the percussion equipment management program, you have to enter the correct password.
+    </h2>
+    <div class="password-entry pt-3">
+        <input type="password" id="password" placeHolder="Enter password">
+        <button onclick="check_password()" class="btn btn-light">Submit</button>
+    </div>
+    <p id="incorrect_pass_field"></p>
+
+    <h2 class="mt-5">
+        What is the percussion equipment management program?
+    </h2>
+    <p class="fs-4">
+        It is a program that I wrote to help with managing the school's percussion equipment, <br>
+        and to help prepare for concerts and decide which instruments need to be brought, <br>
+        and which are already at the concert location.
+    </p>
+    <script src={% static "js/band/check_password.js" %}></script>
+    <script src={% static "js/get_cookie.js" %}></script>
+</div>
+
+{% endblock content %}

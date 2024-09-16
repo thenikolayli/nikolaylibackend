@@ -13064,11 +13064,33 @@ strong {
   color: #0d1b2a;
 }
 .nav-link:hover {
-  color: #778da9;
+  color: #e0e1dd;
 }
 .nav-link.footer-link {
   color: #415a77;
 }
 .nav-link.footer-link:hover {
   color: #778da9;
+}
+
+.btn-dark {
+  color: #778da9;
+  background-color: #0d1b2a;
+  border-color: #778da9;
+}
+.btn-dark:hover {
+  color: #0d1b2a;
+  background-color: #778da9;
+  border-color: #0d1b2a;
+}
+
+.btn-light {
+  color: #0d1b2a;
+  background-color: #778da9;
+  border-color: #0d1b2a;
+}
+.btn-light:hover {
+  color: #778da9;
+  background-color: #0d1b2a;
+  border-color: #778da9;
 }

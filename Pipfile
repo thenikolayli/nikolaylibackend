@@ -13,6 +13,7 @@ google-auth-oauthlib = "*"
 ics = "*"
 requests = "*"
 tatsu = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 
