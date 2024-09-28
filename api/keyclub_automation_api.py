@@ -224,7 +224,7 @@ def log_event(id, hours_multiplier, credentials, **kwargs):
 
     for i in range(1, len(nickname_rows)): # goes through list of nicknames
         if nickname_rows[i] != []: # if not blank
-            nickname = f"{fullnames[i][0].split(", ")[0].lower().capitalize().strip()}, {nickname_rows[i][0].lower().capitalize().strip()}" # formats nickname from nickname and last name
+            nickname = f"{fullnames[i][0].split(', ')[0].lower().capitalize().strip()}, {nickname_rows[i][0].lower().capitalize().strip()}" # formats nickname from nickname and last name
             nickname_rows[i] = [nickname] # updates nickname
 
     volunteer_ranges = [f"{column}1:{column}1"] # list of ranges, and adds event title range
