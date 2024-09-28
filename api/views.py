@@ -12,8 +12,8 @@ from rest_framework.decorators import api_view, APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
 
-from .keyclub_automation_api import automate_event # , fetch_sheet_data, fetch_docs_data
-from keyclub.models import Event_Automated
+from .keyclub_automation_api import log_event # , fetch_sheet_data, fetch_docs_data
+from keyclub.models import Event_Logged
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from band.models import Location, Instrument
@@ -85,10 +85,10 @@ def oauthcallback(request):
 
 @api_view(["POST"])
 @csrf_protect
-def automate_event_api(request):
-    event_link = request.data.get("event_link")
-    hours_multiplier = request.data.get("hours_multiplier")
-    creds = request.session.get("creds")
+def log_event_api(request):
+    event_link = request.data.get("event_link") # link to event/meeting to log
+    hours_multiplier = request.data.get("hours_multiplier", 1) # hours multiplier
+    creds = request.session.get("creds") # build credentials
     credentials = Credentials(
         token = creds['token'],
         refresh_token = creds['refresh_token'],
@@ -96,16 +96,28 @@ def automate_event_api(request):
         client_id = creds['client_id'],
         client_secret = creds['client_secret'],
         scopes = creds['scopes'])
+    first_name_col = request.data.get("first_name_col") # meeting variables
+    last_name_col = request.data.get("last_name_col")
+    meeting_length = request.data.get("meeting_length")
+    meeting_title = request.data.get("meeting_title")
     
-    response = automate_event(credentials, event_link, hours_multiplier)
+    response = log_event(id=event_link, hours_multiplier=hours_multiplier, credentials=credentials, first_name_col=first_name_col, last_name_col=last_name_col, meeting_length=meeting_length, meeting_title=meeting_title)
 
     if not response.get("error"):
-        hours_updated, hours_not_updated = 0, 0
-        for i in response.get("updated"):
-            hours_updated += float(i[1])
-        for i in response.get("not_updated"):
-            hours_not_updated += float(i[1])
-        Event_Automated(event_title=response.get("event_title"), hours_updated=hours_updated, hours_not_updated=hours_not_updated, people_attended=response.get("people_attended")).save()
+        logged = response.get("logged")
+        not_logged = response.get("not_logged")
+        hours_logged = 0
+        hours_not_logged = 0
+        people_attended = 0
+
+        for name in logged:
+            hours_logged += float(logged.get(name).get("hours"))
+            people_attended =+ 1
+        for name in not_logged:
+            hours_logged += float(not_logged.get(name).get("hours"))
+            people_attended =+ 1
+
+        Event_Logged(event_title=response.get("event_title"), hours_logged=hours_logged, hours_not_logged=hours_not_logged, people_attended=people_attended).save()
     
     return Response(response)
 

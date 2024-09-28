@@ -5,7 +5,7 @@ urlpatterns = [
     path("keyclub/check_password/", views.keyclub_check_password),
     path("keyclub/authorize/", views.authorize),
     path("keyclub/oauthcallback/", views.oauthcallback),
-    path("keyclub/automate_event/", views.automate_event_api),
+    path("keyclub/log_event/", views.log_event_api),
     path("keyclub/log_out/", views.log_out, name="logout"),
 
     path("percussion/location/", views.location_view.as_view()),

@@ -7,37 +7,102 @@
 {% csrf_token %}
 
 <div class="container-fluid" id="content">
-    <div class="container-fluid my-3">
+    <div class="container my-3">
         <h1>
             This is the automation page,
         </h1>
         <h2 class="lh-sm">
-            instructions:<br>
-            1. find a sign up sheet google doc for the event you'd like to automate<br>
-            2. copy the link and paste it in the space below<br>
-            3. click "automate event"<br><br>
-            <u>note</u>: you must be logged into the official key club google account,<br>
-            if you accidentally logged into a different google account,<br>
-            click the log out button and redo the login process
+            there are options to automatically log hours for a volunteer event <br>
+            or for a general meeting.  
         </h2>
-    </div>
-    <div class="container-fluid mb-3">
         <div class="row">
-            <div class="col d-flex align-items-start">
-                <input type="url" id="event_link" placeHolder="Paste link here">
-                <p class="ms-2 fs-5">hours multiplier:</p>
-                <input type="number" class="ms-2" id="hours_multiplier" placeHolder="1" value=1>
+            <div class="col">
+                <div class="card l1-bg">
+                    <div class="card-body">
+                        <h2 class="d1-c">Log Volunteer Event Hours</h2>
+                        <p class="d1-c fs-5">
+                            instructions:
+                        </p>
+                        <ol class="lh-1">
+                            <li><p class="fs-5 d1-c">find a sign up sheet google doc for the event you'd like to log</p></li>
+                            <li><p class="fs-5 d1-c">copy the link and paste it in the space below</p></li>
+                            <li><p class="fs-5 d1-c">click "log event"</p></li>
+                        </ol>
+                        <p class="d1-c fs-5">
+                            <u>note</u>: you must be logged into the official key club google account,<br>
+                            if you accidentally logged into a different google account,<br>
+                            click the log out button and redo the login process
+                        </p>
+                        <div class="row mb-2">
+                            <div class="col">
+                                <input class="w-100 rounded" type="url" id="event_link" placeHolder="Paste link here">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-6 d-flex align-items-start">
+                                <p class="d1-c fs-5">hours multiplier:</p>
+                                <input class="w-25 rounded ms-2" type="number" id="hours_multiplier" placeHolder="1" value=1>
+                            </div>
+                            <div class="col-6 d-flex justify-content-end">
+                                <button class="btn btn-superlight mb-2 me-2" onclick="log_event()" id="event_log_button">Log event</button>
+                                <a href={% url "logout" %}>Log out</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <p class="d1-c fs-5" id="event_api_response"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col d-flex align-items-start">
-                <button class="btn btn-light mt-2" onclick="automate_event()" id="automate-button">Automate event</button>
-                <a class="mt-2 ms-3" href={% url "logout" %}>Log out</a>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col d-flex align-items-start">
-                <p class="ms-2" id="api-response"></p>
+            <div class="col">
+                <div class="card l1-bg">
+                    <div class="card-body">
+                        <h2 class="d1-c">Log Meeting Hours</h2>
+                        <p class="d1-c fs-5">
+                            instructions:
+                        </p>
+                        <ol class="lh-1">
+                            <li><p class="fs-5 d1-c">open attendance form responses and click "view in sheets"</p></li>
+                            <li><p class="fs-5 d1-c">get link to spreadsheet with meeting attendance form responses</p></li>
+                            <li><p class="fs-5 d1-c">copy the link and paste it in the space below</p></li>
+                            <li><p class="fs-5 d1-c">enter column letters that contain first name and last name on spreadsheet</p></li>
+                            <li><p class="fs-5 d1-c">click "log meeting"</p></li>
+                        </ol>
+                        <p class="d1-c fs-5">
+                            <u>note</u>: you must be logged into the official key club google account,<br>
+                            if you accidentally logged into a different google account,<br>
+                            click the log out button and redo the login process
+                        </p>
+                        <div class="row mb-2">
+                            <div class="col">
+                                <input class="w-100 rounded" type="url" id="meeting_link" placeHolder="Paste link here">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col">
+                                <input class="w-100 rounded" type="text" id="meeting_title" placeHolder="Meeting title">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-8 d-flex align-items-start">
+                                <input class="w-50 rounded" type="text" id="first_name_col" placeHolder="First name col">
+                                <input class="w-50 rounded ms-1" type="text" id="last_name_col" placeHolder="Last name col">
+                                <input class="w-50 rounded ms-1" type="number" id="meeting_length" placeHolder="Meeting length (mins)">
+                            </div>
+                            <div class="col-4 d-flex justify-content-end">
+                                <button class="btn btn-superlight me-2" onclick="log_meeting()" id="meeting_log_button">Log meeting</button>
+                                <a href={% url "logout" %}>Log out</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <p class="d1-c fs-5" id="meeting_api_response"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -45,12 +110,12 @@
         <h2 class="pt-3">
             FAQ:
             <ol class="pt-1">
-                <h3><li>Why were some hours not automated?</h3>
+                <h3><li>Why were some hours not logd?</h3>
                 <h4 class="pl-3">The name was spelled incorrectly or a nickname was used,<br>
                 and the bot couldn't find the person in the hours spreadsheet.</h4></li>
-                <h3><li>Why is the automate button greyed out?</h3>
+                <h3><li>Why is the log button greyed out?</h3>
                 <h4 class="pl-3">It's waiting for the server to respond to ensure that an<br>
-                attempt to automate the event was made, as it needs to display<br>
+                attempt to log the event was made, as it needs to display<br>
                 the response so the user knows if there was an error or not.</h4></li>
                 <h3><li>Where's the log out button?</h3>
                 <h4 class="pl-3">It's up there.</h4></li>
@@ -59,7 +124,7 @@
     </div>
 </div>
 
-<script src={% static "js/keyclub/automate_event.js" %}></script>
+<script src={% static "js/keyclub/log_functions.js" %}></script>
 <script src={% static "js/get_cookie.js" %}></script>
 
 {% endblock content %}

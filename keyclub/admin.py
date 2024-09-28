@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import Event_Automated
+from .models import Event_Logged
 
 # Register your models here.
-@admin.register(Event_Automated)
-class Event_Automated_Admin(admin.ModelAdmin):
-    list_display = ("timestamp", "event_title", "hours_updated", "hours_not_updated", "people_attended")
+@admin.register(Event_Logged)
+class Event_Logged_Admin(admin.ModelAdmin):
+    list_display = ("timestamp", "event_title", "hours_logged", "hours_not_logged", "people_attended")

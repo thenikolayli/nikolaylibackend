@@ -85,3 +85,25 @@ strong {
         border-color: $l2;
     }
 }
+.btn-superlight {
+    color: $l2;
+    background-color: $l3;
+    border-color: $l2;
+    border-width: 2px;
+    &:hover {
+        color: $l2;
+        background-color: $l1;
+        border-color: $l2;
+    }
+}
+
+input {
+    border-color: $l2;
+    border-width: 2px;
+    border-style: solid;
+    outline: none;
+    &:focus {
+        outline: 2px solid $l2;
+        box-shadow: none;
+    }
+}
