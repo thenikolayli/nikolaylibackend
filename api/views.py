@@ -26,15 +26,15 @@ client_config = json.loads(os.getenv("CLIENT_CONFIG"))
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/documents"]
 redirect_uri = client_config.get("web").get("redirect_uris")[0]
 correct_password = """
-<h1 class="secondary-dark">
+<h1 class="text-4xl text-l1">
     Correct password!!
 </h1>
-<h2 class="secondary-dark lh-sm">
+<h2 class="text-2xl text-l1">
     Okay now you have to sign in to use the automation bot. <br>
     Make sure to sign in with the <u>official key club google account</u>, or use any other <br>
     account that has access to and can read/write in the hours spreadsheet.
 </h2>
-<button id="authorize" class="btn btn-light" onclick="authorize()" class='pt-3'>Log in with Google</button>
+<button id="authorize" class="dark-button mt-2" onclick="authorize()" class='pt-3'>Log in with Google</button>
 <script src="/static/js/keyclub/authorize.js"></script>
 """
 

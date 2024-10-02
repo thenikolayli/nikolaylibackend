@@ -56,8 +56,8 @@ async function filter_refresh_items(items) {
     var sorted_html = "";
 
     for (instrument of items) {
-        sorted_html += `<li><div class="d-flex align-items-center"><h4>` + instrument + `</h4>
-        <button class="btn d-flex justify-content-center align-items-center p-0 ms-2" style="width: 1.5em; height: 1.5em;" onclick="filter_delete_item('` + instrument + `')"><img src=/static/images/minus_icon.png class="w-100 h-100"></button></div></li>`;
+        sorted_html += `<li class="flex flex-row"><h4 class="text-xl text-d1 mr-2">• ` + instrument + 
+        `</h4><button class="size-5 flex self-center pb-1" onclick="filter_delete_item('` + instrument + `')"><img src=/static/images/minus_icon.png></button></li>`;
     }
     document.getElementById("filter_instrument_index").innerHTML = sorted_html;
 }
@@ -81,10 +81,10 @@ async function filter_items() {
 
     if (result.data) {
         for (instrument of result.data.to_bring) {
-            to_bring += "<li><p class='fs-5 d1-c'>" + instrument + "</p></li>"
+            to_bring += "<li class='flex flex-row'><p class='text-xl text-d1'>• " + instrument + "</p></li>"
         }
         for (instrument of result.data.alr_there) {
-            alr_there += "<li><p class='fs-5 d1-c'>" + instrument + "</p></li>"
+            alr_there += "<li class='flex flex-row'><p class='text-xl text-d1'>• " + instrument + "</p></li>"
         }
         
         document.getElementById("to_bring_list").innerHTML = to_bring;

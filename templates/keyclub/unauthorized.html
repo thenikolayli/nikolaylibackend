@@ -5,13 +5,13 @@
 {% block content %}
 {% load static %}
 
-<div class="container-fluid p-3" id="content">
-    <h1>
+<div class="container mx-auto text-center mt-4" id="content">
+    <h1 class="text-4xl text-l1">
         You're unauthorized,
     </h1>
-    <h2 class="lh-sm">
+    <h2 class="text-2xl text-l1 mt-1">
         or your credentials couldn't be refreshed,<br>
-        go <a href={% url "keyclub:homepage" %}>back to the homepage</a> to get authorized.
+        go <u><a href={% url "keyclub:homepage" %}>back to the homepage</a></u> to get authorized.
     </h2>
 </div>
 

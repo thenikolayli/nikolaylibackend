@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.nav-link {
+    @apply text-d1 hover:text-l2 transition duration-200;
+}
+
+.footer-link {
+    @apply text-l1 hover:text-l2 transition duration-200;
+}
+
+.dark-input {
+    @apply rounded-md border-2 border-l1 focus:outline-none focus:border-glow-l2 hover:border-l2 transition duration-200 bg-d1 text-l1 placeholder-l1;
+}
+
+.light-input {
+    @apply rounded-md border-2 border-d1 focus:outline-none focus:border-glow-d1 hover:border-d1 transition duration-200 bg-l1 text-d1 placeholder-d1;
+}
+
+.dark-button {
+    @apply rounded-md border-2 border-l1 hover:border-glow-l2 hover:border-l2 transition duration-200 text-l1 px-2 py-1;
+}
+
+.light-button {
+    @apply rounded-md border-2 border-d1 hover:border-glow-d1 hover:border-d1 transition duration-200 text-d1 px-2 py-1;
+}

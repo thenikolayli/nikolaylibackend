@@ -11,7 +11,7 @@ async function check_password() {
     });
 
     const result = await response.json();
-
+    console.log(result.id);
     if (response.ok) {
         document.getElementById(result.id).innerHTML = result.content;
         if (result.file) {

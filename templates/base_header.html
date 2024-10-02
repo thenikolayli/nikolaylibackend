@@ -7,47 +7,38 @@
     <title>{% block title %}{% endblock title %}</title>
     {% load static %}
     <link rel="shortcut icon" href={% static "images/favicon.ico" %}>
-    <link rel="stylesheet" href={% static "css/custom.css" %}>
+    <link rel="stylesheet" href={% static "css/build.css" %}>
 </head>
-<body class="d1-bg d-flex flex-column min-vh-100">
+<body class="bg-d1 font-sans flex flex-col min-h-screen">
   <header>
-    <nav class="navbar navbar-expand-sm l2-bg">
-      <div class="container-fluid">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link active l3-c fs-5 me-2" href={% url "homepage" %}><strong>Nikolay Li Website</strong></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link d1-c fs-5" href={% url "homepage" %}>Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link d1-c fs-5" href={% url "keyclub:homepage" %}>Key Club</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link d1-c fs-5" href={% url "percussion:homepage" %}>Percussion</a>
-          </li>
+    <nav class="bg-l1">
+      <div class="py-4 px-4 flex flex-col sm:flex-row">
+        <a href={% url "homepage" %}><h1 class="text-2xl me-10 font-semibold nav-link text-d1 hover:text-l2">nikolayli.com</h1></a>
+        <ul class="sm:gap-5 flex:col sm:flex">
+          <li><a class="nav-link text-2xl" href={% url "homepage" %}>home</a></li>
+          <li><p class="text-xl hidden sm:flex">|</p></li>
+          <li><a class="nav-link text-2xl" href={% url "keyclub:homepage" %}>key club</a></li>
+          <li><p class="text-xl hidden sm:flex">|</p></li>
+          <li><a class="nav-link text-2xl" href={% url "percussion:homepage" %}>percussion</a></li>
         </ul>
       </div>
     </nav>
   </header>
   
-  <main>
+  <main class="flex-grow">
     {% block content %}{% endblock content %}
   </main>
 
-  <footer class="mt-auto">
-    <div class="container border-top my-2">
-      <div class="row my-3">
-        <div class="col">
-          <a class="nav-link footer-link" href="https://www.instagram.com/thenikolayli/">@thenikolayli</a>
-        </div>
-        <div class="col text-end">
-          <a class="nav-link footer-link" href={% url "keyclub:privacy_policy" %}>privacy policy</a>
-        </div>
+  <footer class="mt-4">
+    <div class="container w- grid grid-cols-2 mx-auto border-t border-l1">
+      <div class="my-3">
+        <a class="footer-link" href="https://www.instagram.com/thenikolayli/">@thenikolayli</a>
+      </div>
+      <div class="my-3 text-end">
+        <a class="footer-link" href={% url "keyclub:privacy_policy" %}>privacy policy</a>
       </div>
     </div>
   </footer>  
-    
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
 </body>
 </html>

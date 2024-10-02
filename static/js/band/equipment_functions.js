@@ -25,10 +25,10 @@ async function create_item(item_type) {
     const result = await response.json();
 
     if (result.data) {
-        document.getElementById("api-response").innerHTML = result.data;
+        document.getElementById("api_response").innerHTML = result.data;
         refresh_data();
     } else {
-        document.getElementById("api-response").innerHTML = result.error;
+        document.getElementById("api_response").innerHTML = result.error;
     }
 }
 
@@ -52,10 +52,10 @@ async function delete_item(item_type, item_id) {
     const result = await response.json();
 
     if (result.data) {
-        document.getElementById("api-response").innerHTML = result.data;
+        document.getElementById("api_response").innerHTML = result.data;
         refresh_data();
     } else {
-        document.getElementById("api-response").innerHTML = result.error;
+        document.getElementById("api_response").innerHTML = result.error;
     }
 }
 
@@ -75,24 +75,25 @@ async function refresh_data() {
     if (result.data) {
         for (const location of result.data.locations) {
             if (location.name != "jhs") {
-                filter_dropdown_html += `<option value=` + location.id + `>` + location.name + `</option>"`;
+                filter_dropdown_html += `<option value=` + location.id + `>` + location.name + `</option>`;
             }    
-            dropdown_html += `<option value=` + location.id + `>` + location.name + `</option>"`;
-            sorted_html += '<li><div class="d-flex align-items-center"><h4>' +
-            location.name + 
-            `</h4><button class="btn d-flex justify-content-center align-items-center p-0 ms-2" style="width: 1.5em; height: 1.5em;" onclick="delete_item('location',` + location.id + `)"><img src=/static/images/minus_icon.png class="w-100 h-100"></button>` +
-            "</div><ul>";
+            dropdown_html += `<option value=` + location.id + `>` + location.name + `</option>`;
+            sorted_html += 
+            '<div class="flex flex-row">' + 
+            '<span class="text-2xl text-d1 mr-2">• ' + location.name + "</span>" +
+            `<button class="w-7 flex self-end" onclick="delete_item('location',` + location.id + `)"><img src=/static/images/minus_icon.png></button></div>` + 
+
+            `<div class="indent-4 flex flex-col">`;
             for (const instrument of result.data.instruments) {
                 if (instrument.location == location.id) {
-                    sorted_html += '<li><div class="d-flex align-items-center"><p class="fs-5 lh-sm d1-c">' + 
-                    instrument.name + 
-                    `</p><button class="btn d-flex justify-content-center align-items-center align-self-center p-0 ms-1 mb-2" style="width: 1em; height: 1em;" onclick="delete_item('instrument',` + instrument.id + `)"><img src=/static/images/minus_icon.png class="w-100 h-100"></button>` +
-                    '</div></li>';
+                    sorted_html += '<div class="flex flex-row"><span class="text-xl text-d1 mr-2">> ' + instrument.name + "</span>" +
+                    `<button class="w-5" onclick="delete_item('instrument',` + instrument.id + `)"><img src=/static/images/minus_icon.png></button></div>`;
                 }
             }
-            sorted_html += "</ul></li>";
+            sorted_html += "</div>";
         }
-        document.getElementById("instrument-index").innerHTML = sorted_html;
+
+        document.getElementById("instrument_index").innerHTML = sorted_html;
         document.getElementById("location_dropdown").innerHTML = dropdown_html;
         document.getElementById("filter_location_select").innerHTML = filter_dropdown_html;
     }

@@ -14,6 +14,8 @@ ics = "*"
 requests = "*"
 tatsu = "*"
 django-cors-headers = "*"
+channels = {extras = ["daphne"], version = "*"}
+uvicorn = "*"
 
 [dev-packages]
 

@@ -6,121 +6,108 @@
 {% load static %}
 {% csrf_token %}
 
-<div class="container-fluid" id="content">
-    <div class="container my-3">
-        <h1>
+<div class="container mx-auto p-4 flex flex-col justify-center">
+    <div class="container mb-4">
+        <h1 class="text-4xl text-l1">
             This is the automation page,
         </h1>
-        <h2 class="lh-sm">
+        <h2 class="text-2xl text-l1 mt-1">
             there are options to automatically log hours for a volunteer event <br>
             or for a general meeting.  
         </h2>
-        <div class="row">
-            <div class="col">
-                <div class="card l1-bg">
-                    <div class="card-body">
-                        <h2 class="d1-c">Log Volunteer Event Hours</h2>
-                        <p class="d1-c fs-5">
-                            instructions:
-                        </p>
-                        <ol class="lh-1">
-                            <li><p class="fs-5 d1-c">find a sign up sheet google doc for the event you'd like to log</p></li>
-                            <li><p class="fs-5 d1-c">copy the link and paste it in the space below</p></li>
-                            <li><p class="fs-5 d1-c">click "log event"</p></li>
-                        </ol>
-                        <p class="d1-c fs-5">
-                            <u>note</u>: you must be logged into the official key club google account,<br>
-                            if you accidentally logged into a different google account,<br>
-                            click the log out button and redo the login process
-                        </p>
-                        <div class="row mb-2">
-                            <div class="col">
-                                <input class="w-100 rounded" type="url" id="event_link" placeHolder="Paste link here">
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-6 d-flex align-items-start">
-                                <p class="d1-c fs-5">hours multiplier:</p>
-                                <input class="w-25 rounded ms-2" type="number" id="hours_multiplier" placeHolder="1" value=1>
-                            </div>
-                            <div class="col-6 d-flex justify-content-end">
-                                <button class="btn btn-superlight mb-2 me-2" onclick="log_event()" id="event_log_button">Log event</button>
-                                <a href={% url "logout" %}>Log out</a>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <p class="d1-c fs-5" id="event_api_response"></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card l1-bg">
-                    <div class="card-body">
-                        <h2 class="d1-c">Log Meeting Hours</h2>
-                        <p class="d1-c fs-5">
-                            instructions:
-                        </p>
-                        <ol class="lh-1">
-                            <li><p class="fs-5 d1-c">open attendance form responses and click "view in sheets"</p></li>
-                            <li><p class="fs-5 d1-c">get link to spreadsheet with meeting attendance form responses</p></li>
-                            <li><p class="fs-5 d1-c">copy the link and paste it in the space below</p></li>
-                            <li><p class="fs-5 d1-c">enter column letters that contain first name and last name on spreadsheet</p></li>
-                            <li><p class="fs-5 d1-c">click "log meeting"</p></li>
-                        </ol>
-                        <p class="d1-c fs-5">
-                            <u>note</u>: you must be logged into the official key club google account,<br>
-                            if you accidentally logged into a different google account,<br>
-                            click the log out button and redo the login process
-                        </p>
-                        <div class="row mb-2">
-                            <div class="col">
-                                <input class="w-100 rounded" type="url" id="meeting_link" placeHolder="Paste link here">
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col">
-                                <input class="w-100 rounded" type="text" id="meeting_title" placeHolder="Meeting title">
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-8 d-flex align-items-start">
-                                <input class="w-50 rounded" type="text" id="first_name_col" placeHolder="First name col">
-                                <input class="w-50 rounded ms-1" type="text" id="last_name_col" placeHolder="Last name col">
-                                <input class="w-50 rounded ms-1" type="number" id="meeting_length" placeHolder="Meeting length (mins)">
-                            </div>
-                            <div class="col-4 d-flex justify-content-end">
-                                <button class="btn btn-superlight me-2" onclick="log_meeting()" id="meeting_log_button">Log meeting</button>
-                                <a href={% url "logout" %}>Log out</a>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <p class="d1-c fs-5" id="meeting_api_response"></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
-    <div class="container-fluid">
-        <h2 class="pt-3">
-            FAQ:
-            <ol class="pt-1">
-                <h3><li>Why were some hours not logd?</h3>
-                <h4 class="pl-3">The name was spelled incorrectly or a nickname was used,<br>
-                and the bot couldn't find the person in the hours spreadsheet.</h4></li>
-                <h3><li>Why is the log button greyed out?</h3>
-                <h4 class="pl-3">It's waiting for the server to respond to ensure that an<br>
-                attempt to log the event was made, as it needs to display<br>
-                the response so the user knows if there was an error or not.</h4></li>
-                <h3><li>Where's the log out button?</h3>
-                <h4 class="pl-3">It's up there.</h4></li>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-2">
+        
+        <div class="container rounded-md shadow-sm p-4 flex flex-col justify-self-start shadow-l1 bg-l1">
+            <div class="flex flex-grow flex-col">
+                <h1 class="text-3xl text-d1">Log Event Hours</h1>
+                <h2 class="text-2xl text-d1 mt-2">instructions:</h2>
+                <ol class="list-decimal list-inside">
+                    <li class="text-xl text-d1">find a sign up sheet google doc for the event you'd like to log</li>
+                    <li class="text-xl text-d1">copy the link and paste it in the space below</li>
+                    <li class="text-xl text-d1">click "log event"</li>
+                </ol>
+                <h2 class="text-xl text-d1 mt-2">
+                    <span class="underline">note</span>: you must be logged into the official key club google account,<br>
+                    if you accidentally logged into a different google account,<br>
+                    click the log out button and redo the login process
+                </h2>
+            </div>
+            <input class="light-input mt-2 w-full" type="url" id="event_link" placeHolder=" Paste link here">
+            <div class="grid grid-cols-2 mt-2">
+                <div class="flex flex-row">
+                    <h1 class="text-xl text-d1 font-semibold mr-2">hours multiplier:</h1>
+                    <input class="light-input w-10 text-xl" type="number" value=1 id="hours_multiplier">
+                </div>
+                <div class="flex flex-row justify-end items-center">
+                    <button class="light-button mr-4" onclick="log_event()" id="event_log_button">Log event</button>
+                    <a class="text-xl text-d1 hover:underline" href={% url "logout" %}>Log out</a>
+                </div>
+            </div>
+            <h1 class="text-xl text-d1 font-semibold" id="event_api_response"></h1>
+        </div>
+
+        <div class="container rounded-md shadow-sm p-4 shadow-l1 bg-l1">
+            <h1 class="text-3xl text-d1">Log Meeting Hours</h1>
+            <h2 class="text-2xl text-d1 mt-2">instructions:</h2>
+            <ol class="list-decimal list-inside">
+                <li class="text-xl text-d1">open attendance form responses and click "view in sheets"</li>
+                <li class="text-xl text-d1">get link to spreadsheet with meeting attendance form responses</li>
+                <li class="text-xl text-d1">copy the link and paste it in the space below</li>
+                <li class="text-xl text-d1">enter column letters that contain first name and last name on spreadsheet, and meeting length <u>in minutes</u></li>
+                <li class="text-xl text-d1">click "log meeting"</li>
             </ol>
-        </h2>    
+            <h2 class="text-xl text-d1 mt-2">
+                <span class="underline">note</span>: you must be logged into the official key club google account,<br>
+                if you accidentally logged into a different google account,<br>
+                click the log out button and redo the login process
+            </h2>
+            <input class="light-input mt-2 w-full" type="url" id="meeting_link" placeHolder=" Paste link here">
+            <input class="light-input mt-2 w-full" type="text" id="meeting_title" placeHolder=" Meeting title">
+            <div class="grid grid-cols-3 mt-2">
+                <div class="col-span-2 flex flex-row gap-2">
+                    <input class="light-input text-md w-1/3" type="text" id="first_name_col" placeHolder=" First name col">
+                    <input class="light-input text-md w-1/3" type="text" id="last_name_col" placeHolder=" Last name col">
+                    <input class="light-input text-md w-1/3" type="number" id="meeting_length" placeHolder=" Meeting length">
+                </div>
+                <div class="col-span-1 flex flex-row justify-end items-center">
+                    <button class="light-button mr-4" onclick="log_meeting()" id="meeting_log_button">Log meeting</button>
+                    <a class="text-xl text-d1 hover:underline" href={% url "logout" %}>Log out</a>
+                </div>
+            </div>
+            <h1 class="text-xl text-d1 font-semibold mt-2" id="meeting_api_response"></h1>
+        </div>
+
+    </div>
+
+    <div class="container mt-4">
+        <h2 class="text-2xl text-l1 font-semibold">
+            FAQ:
+        </h2>  
+        <h2 class="text-2xl text-l1">
+            <ol class="list-decimal list-inside font-normal">
+                <li class="text-xl text-l1">
+                    Why were some hours not logged?
+                    <h1 class="ms-6">
+                        he name was spelled incorrectly or a nickname was used,<br>
+                        and the bot couldn't find the person in the hours spreadsheet.
+                    </h1>
+                </li>
+                <li class="text-xl text-l1">
+                    Why is the log button greyed out?
+                    <h1 class="ms-6">
+                        It's waiting for the server to respond to ensure that an<br>
+                        attempt to log the event was made, as it needs to display.
+                    </h1>
+                </li>
+                <li class="text-xl text-l1">
+                    Where's the log out button?
+                    <h1 class="ms-6">
+                        It's up there.
+                    </h1>
+                </li>
+            </ol>
+        </h2>
     </div>
 </div>
 

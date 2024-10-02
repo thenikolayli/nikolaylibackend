@@ -6,121 +6,99 @@
 {% load static %}
 {% csrf_token %}
 
-<h1 class=" p-3">Add instruments and locations</h1>
-<div class="container-fluid d-flex align-content-start">
-    <div class="row">
-        <div class="col">
+<div class="container mx-auto p-4 flex flex-col">
+    <h1 class="text-4xl text-l1 my-4">Add instruments and locations</h1>
 
-            <div class="card l2-bg mb-2" style="width: 21em;">
-                <div class="card-body">
-                    <h2 class="d1-c">Add location</h2>
-                    <table>
-                        <tr>
-                            <td><h3 class="d1-c font-small me-1">Name</h3></td>
-                            <td><input type="text" id="location_name" placeholder="jhs"></td>
-                        </tr>
-                    </table>
-                    <button class="btn btn-dark" onclick="create_item('location')">Add</button>
+    <div class="container grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+
+        <div class="container flex-flex-col">
+            <div class="container rounded p-4 mb-2 bg-l1">
+                <h2 class="text-2xl text-d1 font-semibold">Add location</h2>
+                <div class="grid grid-cols-2">
+                    <div class="container mb-2">
+                        <h2 class="text-2xl text-d1">Name</h2>
+                    </div>
+                    <div class="container">
+                        <input class="light-input w-11/12" type="text" id="location_name" placeholder=" Everett Civic">
+                    </div>
                 </div>
+                <button class="light-button" onclick="create_item('location')">Add</button>
             </div>
 
-            <div class="card l2-bg mb-2" style="width: 21em;">
-                <div class="card-body">
-                    <h2 class="d1-c">Add instrument</h2>
-                    <table>
-                        <tr>
-                            <td><h3 class="d1-c font-small">Name</h3></td>
-                            <td><input type="text" id="instrument_name" placeholder="golden snare"></td>
-                        </tr>
-                        <tr>
-                            <td><h3 class=" font-small">Group</h3></td>
-                            <td><input type="text" id="instrument_type" placeholder="drum"></td>
-                        </tr>
-                        <tr>
-                            <td><h3 class=" font-small">Type</h3></td>
-                            <td><input type="text" id="instrument_subtype" placeholder="snare drum"></td>
-                        </tr>
-                        <tr>
-                            <td><h3 class=" font-small me-1">Location</h3></td>
-                            <td><select name="Location" id="location_dropdown">
-                                {% for location in locations %}
-                                <option value={{ location.id }}>{{ location.name }}</option>
-                                {% endfor %}
-                            </select></td>
-                        </tr>
-                    </table>
-                    <button class="btn btn-dark" onclick="create_item('instrument')">Add</button>
+            <div class="container rounded p-4 mb-2 bg-l1">
+                <h2 class="text-2xl text-d1 font-semibold">Add instrument</h2>
+                <div class="grid grid-cols-2">
+                    <div class="container mb-2">
+                        <h2 class="text-2xl text-d1">Name</h2>
+                    </div>
+                    <div class="container">
+                        <input class="light-input w-11/12" type="text" id="instrument_name" placeholder=" Five octave">
+                    </div>
+
+                    <div class="container mb-2">
+                        <h2 class="text-2xl text-d1">Group</h2>
+                    </div>
+                    <div class="container">
+                        <input class="light-input w-11/12" type="text" id="instrument_type" placeholder=" Keyboard">
+                    </div>
+
+                    <div class="container mb-2">
+                        <h2 class="text-2xl text-d1">Type</h2>
+                    </div>
+                    <div class="container">
+                        <input class="light-input w-11/12" type="text" id="instrument_subtype" placeholder=" Marimba">
+                    </div>
+
+                    <div class="container mb-2">
+                        <h2 class="text-2xl text-d1">Location</h2>
+                    </div>
+                    <div class="container">
+                        <select class="light-input" name="Location" id="location_dropdown"></select>
+                    </div>
                 </div>
-            </div>
-
-            <div style="width: 21em;" class="mb-2">
-                <p id="api-response"></p>
-            </div>
-
-        </div>
-
-        <div class="col">
-
-            <div class="card l2-bg mb-2" style="width: 21em;">
-                <div class="card-body">
-                    <table>
-                        <tr>
-                            <td><h2 class="d1-c">Equipment</h2></td>
-                            <td><button class="btn d-flex justify-content-center align-items-center p-0" style="width: 2em; height: 2em;" onclick="refresh_data()"><img src={% static "images/refresh_icon.png" %} class="w-100 h-100"></button></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <ul id="instrument-index">
-                                </ul>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+                <button class="light-button" onclick="create_item('instrument')">Add</button>
             </div>
         </div>
 
-        <div class="col">
-            <div class="card l2-bg mb-2" style="width: 20em;">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            <h2 class="d1-c">Filter</h2>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col d-flex">
-                            <input type="text" id="filter_instrument_name" placeholder="snare drum">
-                            <button class="btn d-flex justify-content-center align-items-center p-0 mx-2" style="width: 2em; height: 2em;" onclick="filter_create_item()"><img src={% static "images/plus_icon.png" %} class="w-100 h-100"></button>
-                            <button class="btn d-flex justify-content-center align-items-center p-0" style="width: 2em; height: 2em;" onclick="filter_delete_item('clear_all_instruments')"><img src={% static "images/trash_icon.png" %} class="w-100 h-100"></button>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col">
-                            <ul id="filter_instrument_index"></ul>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col d-flex align-items-start">
-                            <p class="d1-c fs-4">Location:</p>
-                            <select name="filter_location" id="filter_location_select" class="my-2 ms-2"></select>
-                            <button class="btn btn-dark ms-2" onclick="filter_items()">Filter</button>
-                        </div>
-                    </div>
-                    <div class="row border-top pt-2">
-                        <div class="col-6">
-                            <h4>To bring:</h4>
-                            <ul id="to_bring_list"></ul>
-                        </div>
-                        <div class="col-6">
-                            <h4>Already there:</h4>
-                            <ul id="alr_there_list"></ul>
-                        </div>
-                    </div>
+        <div class="container rounded p-4 mb-2 bg-l1">
+            <div class="flex flex-row">
+                <h2 class="text-2xl text-d1 mr-4 font-semibold">Equipment</h2>
+                <button class="w-7 flex self-end" onclick="refresh_data()"><img src={% static "images/refresh_icon.png" %}></button>
+            </div>
+            <div class="flex flex-col pl-4 mt-2" id="instrument_index"></div>
+        </div>
+
+        <div class="container rounded p-4 mb-2 bg-l1">
+            <h2 class="text-2xl text-d1 mr-4 font-semibold">Filter</h2>
+            <div class="flex flex-row">
+                <input class="light-input mt-2 mr-2" type="text" id="filter_instrument_name" placeholder=" snare drum">
+                <button class="w-7 flex self-end mr-2" onclick="filter_create_item()"><img src={% static "images/plus_icon.png" %}></button>
+                <button class="w-7 flex self-end" onclick="filter_delete_item('clear_all_instruments')"><img src={% static "images/trash_icon.png" %}></button>
+            </div>
+
+            <div class="flex flex-col mt-2" id="filter_instrument_index"></div>
+
+            <div class="grid grid-cols-2">
+                <div class="flex flex-row col-span-2 my-2">
+                    <h2 class="text-2xl text-d1 mr-2">Location:</h2>
+                    <select class="light-input mr-2" name="filter_location" id="filter_location_select"></select>
+                    <button class="light-button" onclick="filter_items()">Filter</button>
+                </div>
+
+                <div class="container">
+                    <h2 class="text-xl text-d1">To bring:</h2>
+                    <div class="flex flex-col" id="to_bring_list"></div>
+                </div>
+                <div class="container">
+                    <h2 class="text-xl text-d1">Already There:</h2>
+                    <div class="flex flex-col" id="alr_there_list"></div>
                 </div>
             </div>
         </div>
 
     </div>
+
+    <h1 class="text-2xl text-l1 font-semibold" id="api_response"></h1>
 </div>
 
 <script src={% static "js/get_cookie.js" %}></script>

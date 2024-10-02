@@ -6,31 +6,35 @@
 {% load static %}
 {% csrf_token %}
 
-<div class="container-fluid p-3" id="content">
-    <h1>
-        This is the key club page,
-    </h1>
-    <h2 class="lh-sm">
-        In order to use the automation program I wrote, you have to enter the correct password.
-    </h2>
-    <div class="password-entry pt-3">
-        <input type="password" id="password" placeHolder="Enter password">
-        <button onclick="check_password()" class="btn btn-light">Submit</button>
+<div class="container w-1/2 mx-auto my-6" id="content">
+    <div class="container">
+        <h1 class="text-l1 text-4xl">
+            This is the key club page,
+        </h1>
+        <h2 class="text-l1 text-2xl">
+            In order to use the automation program I wrote, you have to enter the correct password.
+        </h2>
+        <div class="mt-2">
+            <input class="dark-input my-2" type="password" id="password" placeHolder=" Enter password">
+            <button class="dark-button mx-2" onclick="check_password()">Submit</button>
+        </div>
+        <p  class="mt-2 text-l1 text-lg font-semibold" id="incorrect_pass_field"></p>
     </div>
-    <p id="incorrect_pass_field"></p>
-
-    <h2 class="mt-5">
-        What is the Key Club App/automation program?
-    </h2>
-    <p class="fs-4">
-        It is a program I wrote to automate logging Key Club volunteer hours. <br>
-        Normally, a Key Club officer would have to log every hour for every event manually, <br> 
-        and input all the hours from the sign up sheets to the hours spreadsheet by hand,<br>
-        but now they can use their Google account to log into my Key Club App, <br>
-        and it will log the hours for them automatically, once they provide a link to a sign up sheet.
-        <br>
-        For more info, visit <a href={% url "keyclub:privacy_policy" %}>the privacy policy.</a>
-    </p>
+    <div class="container">
+        <h2 class="mt-5 text-4xl text-l1">
+            What is the Key Club App/automation program?
+        </h2>
+        <p class="text-2xl text-l1">
+            It is a program I wrote to automate logging Key Club volunteer hours. <br>
+            Normally, a Key Club officer would have to log every hour for every event manually, <br> 
+            and input all the hours from the sign up sheets to the hours spreadsheet by hand,<br>
+            but now they can use their Google account to log into my Key Club App, <br>
+            and it will log the hours for them automatically, once they provide a link to a sign up sheet.
+            <br>
+            For more info, visit <a class="underline hover:text-l2 footer-link" href={% url "keyclub:privacy_policy" %}>the privacy policy.</a>
+        </p>
+    </div>
+    
     <script src={% static "js/keyclub/check_password.js" %}></script>
     <script src={% static "js/get_cookie.js" %}></script>
 </div>
