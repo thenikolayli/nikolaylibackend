@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    :root {
+        --d1: 13 27 42;
+        --d2: 27 38 59;
+        --l1: 65 90 119;
+        --l2: 119 141 169;
+        --l3: 224 225 221;
+    }
+}
+
+
 .nav-link {
     @apply text-d1 hover:text-l2 transition duration-200;
 }
@@ -14,14 +25,26 @@
     @apply rounded-md border-2 border-l1 focus:outline-none focus:border-glow-l2 hover:border-l2 transition duration-200 bg-d1 text-l1 placeholder-l1;
 }
 
+.dark-input-mini {
+    @apply border-b-2 rounded-md border-l1 text-l1 placeholder-l1 bg-transparent hover:border-d2 focus:border-transparent focus:outline-none transition duration-200;
+}
+
 .light-input {
     @apply rounded-md border-2 border-d1 focus:outline-none focus:border-glow-d1 hover:border-d1 transition duration-200 bg-l1 text-d1 placeholder-d1;
 }
 
 .dark-button {
-    @apply rounded-md border-2 border-l1 hover:border-glow-l2 hover:border-l2 transition duration-200 text-l1 px-2 py-1;
+    @apply rounded-md border-2 border-l1 text-l1 enabled:hover:border-glow-l2 hover:border-l2 transition duration-200  px-2 py-1;
+}
+
+.dark-button:disabled {
+    @apply rounded-md border-2 border-l1/50 text-l1/50 cursor-not-allowed px-2 py-1;
 }
 
 .light-button {
-    @apply rounded-md border-2 border-d1 hover:border-glow-d1 hover:border-d1 transition duration-200 text-d1 px-2 py-1;
+    @apply rounded-md border-2 border-d1 text-d1 enabled:hover:border-glow-d1 hover:border-d1 transition duration-200  px-2 py-1;
+}
+
+.light-button:disabled {
+    @apply rounded-md border-2 border-d1/50 text-d1/50 cursor-not-allowed px-2 py-1;
 }

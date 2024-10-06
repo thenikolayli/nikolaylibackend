@@ -11,11 +11,12 @@ module.exports = {
   theme: {
     extend: {},
     colors: {
-      d1: "#0d1b2a",
-      d2: "#1b263b",
-      l1: "#415a77",
-      l2: "#778da9",
-      l3: "#e0e1dd"
+      d1: "rgb(var(--d1))",
+      d2: "rgb(var(--d2))",
+      l1: "rgb(var(--l1))",
+      l2: "rgb(var(--l2))",
+      l3: "rgb(var(--l3))",
+      transparent: "transparent"
     }
   },
   plugins: [twGlow],

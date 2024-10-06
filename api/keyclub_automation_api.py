@@ -26,7 +26,10 @@ def url_to_id(url):
 def fetch_sheet_data(id, ranges, credentials):
     id = url_to_id(id) # formats id
     service = build("sheets", "v4", credentials=credentials) # builds service
-    sheet_metadata = service.spreadsheets().get(spreadsheetId=id).execute()
+    try:
+        sheet_metadata = service.spreadsheets().get(spreadsheetId=id).execute()
+    except HttpError:
+        return {"error": "error accessing spreadsheet"}
     sheet_title = sheet_metadata.get("sheets")[0].get("properties").get("title") # gets first sheet title
     data = []
 
@@ -49,7 +52,12 @@ def write_sheet_data(id, ranges, values, credentials):
     service = build("sheets", "v4", credentials=credentials) # builds service
     data = [{"range": ranges[i], "values": [[values[i]]]} for i in range(len(values))] # formats ranges and values
 
-    return service.spreadsheets().values().batchUpdate(spreadsheetId=id, body={"valueInputOption": "USER_ENTERED", "data": data}).execute() # writes data
+    try:
+        result = service.spreadsheets().values().batchUpdate(spreadsheetId=id, body={"valueInputOption": "USER_ENTERED", "data": data}).execute() # writes data
+    except HttpError:
+        result = {"error": "error writing to sheet"}
+    
+    return result
 
 def fetch_docs_data(id, credentials): # only used for getting stuff from event sign up docs
     id = url_to_id(id) # formats id
@@ -128,7 +136,12 @@ def write_docs_data(id, ranges, values, credentials):
         updates.append({"insertText": {"location": {"index": ranges[i] + correction}, "text": values[i]}})
         correction += len(values[i]) # updates correction
 
-    return service.documents().batchUpdate(documentId=id, body={"requests": updates}).execute()
+    try:
+        result = service.documents().batchUpdate(documentId=id, body={"requests": updates}).execute()
+    except HttpError:
+        result = {"error": "error writing to doc"}
+    
+    return result
 
 def log_event(id, hours_multiplier, credentials, **kwargs):
     id = url_to_id(id) # formats id
@@ -145,7 +158,6 @@ def log_event(id, hours_multiplier, credentials, **kwargs):
         
         if last_name_col == "": # if last name col given, assume first name col contains both first and last names
             event_data = fetch_sheet_data(id=id, ranges=[f"{first_name_col}:{first_name_col}"], credentials=credentials) # fetches meeting data
-
             if event_data.get("error"): # if there was an error fetching sheet data
                 return {"error": event_data.get("error")}
             
@@ -157,7 +169,6 @@ def log_event(id, hours_multiplier, credentials, **kwargs):
                     event_volunteers.update({name[0].lower().strip(): {"hours": round(meeting_length/60, 2)}}) # adds to volunteer dict
         else: # if last name col given, assume both cols are given
             event_data = fetch_sheet_data(id=id, ranges=[f"{first_name_col}:{first_name_col}", f"{last_name_col}:{last_name_col}"], credentials=credentials) # fetches meeting data
-
             if event_data.get("error"): # if there was an error fetching sheet data
                 return {"error": event_data.get("error")}
             
@@ -170,7 +181,6 @@ def log_event(id, hours_multiplier, credentials, **kwargs):
                     event_volunteers.update({name: {"hours": round(meeting_length/60, 2)}}) # adds to volunteer dict
     else: # assume it is an event
         event_data = fetch_docs_data(id, credentials) # fetches event data
-
         if event_data.get("error"): # if there was an error fetching list of volunteers
             return {"error": event_data.get("error")}
     
@@ -199,12 +209,15 @@ def log_event(id, hours_multiplier, credentials, **kwargs):
                 event_volunteers.get(name).update({"hours": hours}) # updates hours on event volunteers dict
             
             hours_multiplier = 1 # resets hour multiplier
-            write_docs_data(id=id, ranges=ranges, values=values, credentials=credentials) # writes
+            write_docs_result = write_docs_data(id=id, ranges=ranges, values=values, credentials=credentials) # writes
+            if write_docs_result.get("error"):
+                return {"error": write_docs_result.get("error")}
 
     # finding next empty column
-    event_list = fetch_sheet_data(hours_spreadsheet_id, [f"K1:ZZ1"], credentials) # gets header cols
+    event_list = fetch_sheet_data(id=hours_spreadsheet_id, ranges=[f"K1:ZZ1"], credentials=credentials) # gets header cols
     if event_list.get("error"): # if there was an error fetching sheet data
         return {"error": event_list.get("error")}
+    
     event_list = event_list.get("data")[0][0] # changes it to its data
     empty_event_number = event_list.index("") + 11 # gets first empty col and adds 11 to offset info cols
     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -245,8 +258,9 @@ def log_event(id, hours_multiplier, credentials, **kwargs):
         except:
             volunteer_not_logged.update({name: {"hours": float(event_volunteers.get(name).get("hours")) * hours_multiplier}}) # logs volunteers not logged
 
-    write_sheet_data(id=hours_spreadsheet_id, ranges=volunteer_ranges, values=volunteer_values, credentials=credentials) # logs hours
-
+    write_sheet_result = write_sheet_data(id=hours_spreadsheet_id, ranges=volunteer_ranges, values=volunteer_values, credentials=credentials) # logs hours
+    if write_sheet_result.get("error"):
+        return {"error": write_sheet_result.get("error")}
     # returns info on event automation attempt
     return {"data": return_data, "logged": volunteer_logged, "not_logged": volunteer_not_logged, "event_title": event_title}
 

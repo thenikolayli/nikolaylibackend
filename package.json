@@ -2,5 +2,8 @@
   "devDependencies": {
     "tailwindcss": "^3.4.13",
     "twglow": "^0.0.10"
+  },
+  "dependencies": {
+    "feather-icons": "^4.29.2"
   }
 }
